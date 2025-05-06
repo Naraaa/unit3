@@ -1,0 +1,100 @@
+let buffer;
+let startTime;
+let disintegrating = false;
+let disintegrationProgress = 0;
+let fadeToBlack = 255;
+let drawingColor = '#000000';
+let resetButton;
+let font;
+let textColor = '#000000';
+
+
+function preload() {
+  font = loadFont('Heraldic Shadows.otf');
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  buffer = createGraphics(windowWidth, windowHeight);
+  startTime = millis();
+
+  
+  let colorPicker = select('#colorPicker');
+  colorPicker.input(changeColor);
+
+  textFont(font);
+  textSize(30);
+  textAlign(CENTER, CENTER);
+
+  resetButton = createButton('nothing lasts forever');
+  resetButton.position(width / 2 - 40, height / 2 - 20);
+  resetButton.style('font-size', '20px');
+  resetButton.style('padding', '10px 20px');
+  resetButton.style('z-index', '20');
+  resetButton.hide();
+  resetButton.mousePressed(resetCanvas);
+}
+
+function draw() {
+  background(fadeToBlack);
+  image(buffer, 0, 0);
+  noStroke();
+  fill(textColor);
+  text('paint a moment where it felt like you were at peace', width / 2, height * 0.10)
+
+  if (!disintegrating && mouseIsPressed) {
+    buffer.stroke(drawingColor);
+    buffer.strokeWeight(2);
+    buffer.line(pmouseX, pmouseY, mouseX, mouseY);
+  }
+
+  if (!disintegrating && millis() - startTime > 60000) {
+    disintegrating = true;
+  }
+
+  if (disintegrating) {
+    disintegrationProgress += 2;
+    fadeToBlack = map(disintegrationProgress, 0, 255, 255, 0);
+
+    fill(255, disintegrationProgress);
+    noStroke();
+    rect(0, 0, width, height);
+
+    if (disintegrationProgress >= 255) {
+      
+      resetButton.position(width / 2 - 40, height / 2 - 20);
+      resetButton.show();
+      noLoop(); 
+    }
+  }
+
+
+  noFill();
+  stroke(0);
+  strokeWeight(10);
+  rect(5, 5, width - 10, height - 10);
+}
+
+function changeColor() {
+  drawingColor = this.value();
+}
+
+function resetCanvas() {
+  buffer = createGraphics(windowWidth, windowHeight);
+  startTime = millis();
+  disintegrating = false;
+  disintegrationProgress = 0;
+  fadeToBlack = 255;
+  resetButton.hide();
+  loop(); 
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  buffer = createGraphics(windowWidth, windowHeight);
+
+  
+  if (resetButton) {
+    resetButton.position(width / 2 - 40, height / 2 - 20);
+  }
+}
