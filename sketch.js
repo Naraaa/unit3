@@ -32,6 +32,7 @@ function setup() {
   resetButton.style('font-size', '20px');
   resetButton.style('padding', '10px 20px');
   resetButton.style('z-index', '20');
+  resetButton.style('font-family', 'Rene-Regular');
   resetButton.hide();
   resetButton.mousePressed(resetCanvas);
 }
@@ -87,7 +88,7 @@ function resetCanvas() {
   disintegrationProgress = 0;
   fadeToBlack = 255;
   resetButton.hide();
-  readyToDraw = false; // wait for mouse release
+  readyToDraw = false; 
   loop(); 
 }
 
