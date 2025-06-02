@@ -29,10 +29,11 @@ function setup() {
 
   resetButton = createButton('nothing lasts forever');
   resetButton.position((width - resetButton.width) / 2, (height - resetButton.height) / 2);;
-  resetButton.style('font-size', '20px');
-  resetButton.style('padding', '10px 20px');
-  resetButton.style('z-index', '20');
   resetButton.style('font-family', 'Rene-Regular');
+  resetButton.style('font', 'Rene-Regular.otf');
+  resetButton.style('font-size', '20px');
+  resetButton.style('padding', '10px 10px');
+  resetButton.style('z-index', '20');
   resetButton.hide();
   resetButton.mousePressed(resetCanvas);
 }
