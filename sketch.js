@@ -7,10 +7,11 @@ let drawingColor = '#000000';
 let resetButton;
 let font;
 let textColor = '#000000';
+let readyToDraw = false;
 
 
 function preload() {
-  font = loadFont('Heraldic Shadows.otf');
+  font = loadFont('Rene-Regular.otf');
 }
 
 function setup() {
@@ -27,7 +28,7 @@ function setup() {
   textAlign(CENTER, CENTER);
 
   resetButton = createButton('nothing lasts forever');
-  resetButton.position(width / 2 - 40, height / 2 - 20);
+  resetButton.position((width - resetButton.width) / 2, (height - resetButton.height) / 2);;
   resetButton.style('font-size', '20px');
   resetButton.style('padding', '10px 20px');
   resetButton.style('z-index', '20');
@@ -42,7 +43,7 @@ function draw() {
   fill(textColor);
   text('paint a moment where it felt like you were at peace', width / 2, height * 0.10)
 
-  if (!disintegrating && mouseIsPressed) {
+  if (!disintegrating && mouseIsPressed && readyToDraw) {
     buffer.stroke(drawingColor);
     buffer.strokeWeight(2);
     buffer.line(pmouseX, pmouseY, mouseX, mouseY);
@@ -86,6 +87,7 @@ function resetCanvas() {
   disintegrationProgress = 0;
   fadeToBlack = 255;
   resetButton.hide();
+  readyToDraw = false; // wait for mouse release
   loop(); 
 }
 
@@ -97,4 +99,8 @@ function windowResized() {
   if (resetButton) {
     resetButton.position(width / 2 - 40, height / 2 - 20);
   }
+}
+
+function mouseReleased() {
+  readyToDraw = true;
 }
